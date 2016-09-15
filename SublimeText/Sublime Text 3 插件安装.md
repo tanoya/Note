@@ -38,6 +38,3 @@ print('Error validating download (got %s instead of %s), please try manual insta
   我们可以自定义在浏览器预览的快捷键，点击 Preferences ->  Key Binding User, 输入：
   `{ "keys": ["alt+m"], "command": "markdown_preview", "args": {"target": "browser", "parser":"markdown"} }`
   保存后， 直接输入快捷键： `Alt + M` 就可以直接在浏览器中直接一栏生成的 `HTML`文件了。
-
-
-
