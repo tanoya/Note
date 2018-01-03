@@ -1014,46 +1014,9 @@ body .markdown-body
     page-break-after: avoid;
   }
 }
-</style><title>transaction</title></head><body><article class="markdown-body"><h1 id="play-framework-request-transaction"><a name="user-content-play-framework-request-transaction" href="#play-framework-request-transaction" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>!Play framework 中request 和 transaction的关系</h1>
-<p>在 <code>!Play framework</code> 中, 服务器接收到一个request, 就相当于开启了一个事务. 在处理request的时候, 虽然会出现 <code>Model.save();</code> 语句,但是在整个request处理结束<strong>之前</strong>,也就是在 <strong>事务提交</strong> <em>之前</em> <code>transaction.commit();</code>, 数据库的内容是不会变化的。这样的情形在多线程并发的情况下，对于数据的控制<strong>不是</strong> 很美好。</p>
-<h4 id="_1"><em>例如：</em></h4>
-<p><pre><code>/**
-*这是请求处理函数
-*/
-public static void action(){ 
-    handle(args ...); //这是数据处理函数
-}
-
-/**
-*这是数据处理函数
-*/ 
-public static sychronized void handle(args ...){ //使用同步
-    //TO DO SOMETHING HERE
-    //HANDLE DATA
-    Order order = Order.getOrderByOrderNo(cOrderNo, iCorpId); //其中 order.cStatusCode=&quot;SOMECODE&quot;
-
-    if(&quot;SOMECODE&quot;.equals(order.cStatusCode)){
-        order.cStatusCode = &quot;ANOTHERCODE&quot;;
-        order.save();
-    }
-} 
-
-/**
-*这是另一个处理函数
-*/
-pbulic static void anotherHandle(args ...){
-    //TO DO SOMETHING HERE
-    //HANDLE DATA
-}
-
-</code></pre><br />
-现在有两个线程分别去执行 <code>action()</code> 方法, 虽然在 <code>handle()</code> 方法中使用了synchronized 关键字，但是并没有达到互斥的效果，两者两者都会进入代码块<br />
-<pre><code>if(&quot;SOMECODE&quot;.equals(order.cStatusCode)){
-    order.cStatusCode = &quot;ANOTHERCODE&quot;;
-    order.save();
-}
-</code></pre><br />
-<strong>注意</strong> <br />
-这是因为，线程1在执行 <code>Order order = Order.getOrderByOrderNo(cOrderNo, iCorpId);</code> 的时候，拿到的数据 <code>order.cStatusCode="SOMECODE"</code> 可以进入代码块。虽然执行了<code>order.save();</code>, 但是现在线程1的请求没有执行完毕，所以并没有提交该事务，数据库中的数据就没有修改(<font color="LightSkyBlue">跟数据库的事务级别有关系</font>)。因此，线程2此时正好也执行到了 <code>handle()</code> 互斥代码块，在执行Order数据库查询的时候，查询出来的数据仍然是 <code>order.cStatusCode="SOMECODE"</code>, 因此也会去执行代码块中的代码。</p>
-<h2 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>结论</h2>
-<p>在!Play中,这种情况使用<font color="red">synchronized</font>关键字无法实现线程互斥控制。 </p></article></body></html>
+</style><title>java 锁的类型</title></head><body><article class="markdown-body"><h1 id="java"><a name="user-content-java" href="#java" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Java 锁的类型</h1>
+<pre><code>这里讲的锁是锁的概念分类，而不是每一个锁的类型都有一个对应的JDK类的实现。
+</code></pre>
+<h4 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>主要的类型</h4>
+<pre><code>- 公平锁/非公平锁
+</code></pre></article></body></html>

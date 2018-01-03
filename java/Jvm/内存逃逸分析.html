@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><style>body {
-  width: 45em;
+  max-width: 980px;
   border: 1px solid #ddd;
   outline: 1300px solid #fff;
   margin: 16px auto;
@@ -7,7 +7,7 @@
 
 body .markdown-body
 {
-  padding: 30px;
+  padding: 45px;
 }
 
 @font-face {
@@ -1014,7 +1014,17 @@ body .markdown-body
     page-break-after: avoid;
   }
 }
-</style><title>README</title></head><body><article class="markdown-body"><h1 id="i-will-record-what-ive-learned-from-my-daily-life"><a name="user-content-i-will-record-what-ive-learned-from-my-daily-life" href="#i-will-record-what-ive-learned-from-my-daily-life" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>I will record what Ive learned from my daily life.</h1>
+</style><title>内存逃逸分析</title></head><body><article class="markdown-body"><h1 id="jvm"><a name="user-content-jvm" href="#jvm" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>jvm 内存逃逸</h1>
+<h4 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>方法逃逸</h4>
+<pre><code>在一个方法中定义的对象变量能够被其他方法访问到，则称为方法逃逸
+</code></pre>
+<h4 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>线程逃逸</h4>
+<pre><code>如果在一个线程中定义的对象变量能够被其他线程访问到，则称为线程逃逸。
+</code></pre>
+<p>通过jvm的逃逸分析可以使得jvm在执行程序的时候，对程序进行一定的优化，进而提高程序的性能。</p>
+<p>1) 如果变量没有发生方法逃逸，则jvm 申请变量空间的时候在程序栈上给对象分配空间，那么方法执行完之后，变量会随着方法的结束而主动弹出栈从而完成空间清理，而不必要gc来对堆空间进行清理。<br />
+2)如果变量不可能发生线程逃逸，则说明，该变量不能被不同的线程访问到，则对该变量设置的同步操作则会被优化掉，提高了性能。<br />
+3)标量替换：如果逃逸分析证明一个对象不会被外部访问。并且这个对象可以被拆散的话，那程序真正执行的时候可能不创建这个对象，而改为直接创建它的若干个被这个方法使用到的成员变量来替换</p>
 <blockquote>
-<p>Idea worth spreading!</p>
+<p><a href="http://blog.csdn.net/xuqiaobo/article/details/52534832">http://blog.csdn.net/xuqiaobo/article/details/52534832</a></p>
 </blockquote></article></body></html>
