@@ -23,7 +23,7 @@ print('Error validating download (got %s instead of %s), please try manual insta
 ```
 >[代码来源](https://packagecontrol.io/installation)
 ## 自动安装 MarkDown Preview 插件
-
+O
   使用 `Ctrl+Shift+P` 快捷键打开插件管理工具，输入 `pci` 会有MarkDown Preview 插件的选项，选中，然后按 `Enter` 按键。Sublime Text 3 自动安装这个插件。左下角有一个符号一直在动，说明正在安装中.....
 
 #### 自定义 MarkDown Preview 插件的快捷键
