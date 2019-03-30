@@ -1,6 +1,7 @@
 # Java 初始化顺序
 这篇笔记简单的说一下java类在被加载的时候，初始化的顺序
 这里先先写两个使用到的类, 基类 BaseClass 和子类 SubClass 
+
 ```
 public class BaseClass{
     public static int param = init(); // (1)
